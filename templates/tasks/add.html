@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Task</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    label { display:block; margin-top:.5rem;}
+    input, textarea, select { width: 100%; padding:.5rem; margin-top:.3rem;}
+    .error { color: #b00; }
+  </style>
+</head>
+<body>
+  <h1>Add Task</h1>
+  {% if errors %}
+  <div class="error">
+    <ul>
+      {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <form id="taskForm" method="post" action="/add/">
+    {% csrf_token %}
+    <label>Title
+      <input type="text" name="title" value="{{ form.title|default:'' }}" required>
+    </label>
+    <label>Description
+      <textarea name="description">{{ form.description|default:'' }}</textarea>
+    </label>
+    <label>Due date (YYYY-MM-DD)
+      <input type="text" name="due_date" value="{{ form.due_date|default:'' }}" placeholder="2025-12-31">
+    </label>
+    <label>Status
+      <select name="status">
+        <option value="pending" {% if form.status == 'pending' %}selected{% endif %}>pending</option>
+        <option value="in_progress" {% if form.status == 'in_progress' %}selected{% endif %}>in_progress</option>
+        <option value="done" {% if form.status == 'done' %}selected{% endif %}>done</option>
+      </select>
+    </label>
+    <div style="margin-top:1rem;">
+      <button type="submit">Save (non-JS)</button>
+      <button type="button" onclick="submitViaAPI()">Save via API</button>
+      <a href="/">Back</a>
+    </div>
+  </form>
+
+<script>
+async function submitViaAPI() {
+  const form = document.getElementById('taskForm');
+  const payload = {
+    title: form.title.value,
+    description: form.description.value,
+    due_date: form.due_date.value,
+    status: form.status.value
+  };
+  const res = await fetch('/api/tasks/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  });
+  if (res.status === 201) {
+    window.location = '/';
+  } else {
+    const data = await res.json().catch(() => ({}));
+    alert('Error: ' + (data.errors ? data.errors.join(', ') : 'unknown'));
+  }
+}
+</script>
+</body>
+</html>
