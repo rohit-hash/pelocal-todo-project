@@ -12,3 +12,22 @@ pip install django pytest pytest-django
 python manage.py migrate  # creates default Django tables
 
 python manage.py runserver
+
+Usage
+Web UI:
+
+List: http://localhost:8000/
+
+Add: http://localhost:8000/add/
+
+APIs:
+
+Create: POST /api/tasks/
+
+List: GET /api/tasks/
+
+Get one: GET /api/tasks/{id}/
+
+Update: PUT /api/tasks/{id}/
+
+Delete: DELETE /api/tasks/{id}/
