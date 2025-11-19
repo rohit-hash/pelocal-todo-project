@@ -7,5 +7,8 @@ Develop a web application using Python and Django/Flask/FastAPI for managing a T
 
 ## Setup
 pip install django pytest pytest-django
+
+
 python manage.py migrate  # creates default Django tables
+
 python manage.py runserver
