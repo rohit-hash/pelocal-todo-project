@@ -34,4 +34,4 @@ Delete: DELETE /api/tasks/{id}/
 
 ## PostMan Collection
 
-## https://api.postman.com/collections/11626653-86e96c02-6b21-4431-bb48-2a5a30fe3794?access_key=PMAT-01KAE7P5NZJMHRWA97V4EAZCNS
+added in mail
